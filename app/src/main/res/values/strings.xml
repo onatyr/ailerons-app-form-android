@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Ailerons-App-Android</string>
+
+    <string-array name="situation_field_array">
+        <item>Plongée</item>
+        <item>SnorkellingPlaisance</item>
+        <item>Pêche</item>
+        <item>Echouage</item>
+        <item>Laisses de mer</item>
+        <item>A pied</item>
+        <item>Restaurant</item>
+        <item>Etale/poissonier</item>
+        <item>Autre situation</item>
+    </string-array>
 </resources>

@@ -1,4 +1,4 @@
-package fr.onat68.ailerons_app_android.screens.observationContext
+package fr.onat68.ailerons_app_android.screens.ObservationContext
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -121,7 +121,7 @@ fun HourField() {
         mutableStateOf(0)
     }
 
-    Text(text = "Selected H:M = $selectedHour : $selectedMinute")
+    Text(text = "Heure choisie = $selectedHour : $selectedMinute")
 
     var showDialog by remember {
         mutableStateOf(false)

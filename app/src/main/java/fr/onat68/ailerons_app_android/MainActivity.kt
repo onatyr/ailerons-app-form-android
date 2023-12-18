@@ -7,17 +7,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import fr.onat68.ailerons_app_android.Constants.REQUEST_CODE_LOCATION_PERMISSION
-import fr.onat68.ailerons_app_android.screens.ObservationContext.ObservationContextScreen
+import fr.onat68.ailerons_app_android.screens.observationContext.ObservationContextScreen
 import fr.onat68.ailerons_app_android.ui.theme.AileronsAppAndroidTheme
 import pub.devrel.easypermissions.EasyPermissions
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        requestPermissions(this)
+//        requestPermissions(this)
         super.onCreate(savedInstanceState)
         setContent {
             AileronsAppAndroidTheme {
-                // A surface container using the 'background' color from the theme
                 ObservationContextScreen()
             }
         }

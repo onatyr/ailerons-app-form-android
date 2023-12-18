@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Ailerons-App-Android</string>
 
+    <string name="date_field">Date de l\'observation</string>
+    <string name="hour_field">Heure de l\'observation</string>
+    <string name="location_field">Lieu</string>
+    <string name="depth_field">Profondeur</string>
+    <string name="situation_field">Situation</string>
+
+
     <string-array name="situation_field_array">
         <item>Plongée</item>
         <item>SnorkellingPlaisance</item>
@@ -12,4 +19,7 @@
         <item>Etale/poissonier</item>
         <item>Autre situation</item>
     </string-array>
+
+    <string name="dismiss">Annuler</string>
+    <string name="confirm">Confirmer</string>
 </resources>

@@ -1,4 +1,4 @@
-package fr.onat68.ailerons_app_android.screens.observationContext
+package fr.onat68.ailerons_app_android.screens.context
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.DropdownMenu
@@ -23,10 +22,10 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
@@ -47,15 +46,10 @@ import java.util.Calendar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateField() {
-
-    Text(text = "DateField")
-
     val currentDate = Calendar.getInstance().timeInMillis
     var selectedDate by remember {
         mutableStateOf(currentDate)
     }
-
-    Text(text = "Date choisie = ${selectedDate}")
 
     var showDialog by remember {
         mutableStateOf(false)
@@ -63,88 +57,44 @@ fun DateField() {
 
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = currentDate,
-        initialDisplayMode = DisplayMode.Picker
+        initialDisplayMode = DisplayMode.Input
     )
 
-    if (showDialog) {
-        AlertDialog(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = MaterialTheme.colorScheme.surface,
-                    shape = RoundedCornerShape(size = 12.dp)
-                ),
-            onDismissRequest = { showDialog = false }
-        ) {
-            Column(
-                modifier = Modifier
-                    .background(
-                        color = Color.LightGray.copy(alpha = 0.3f)
-                    )
-                    .padding(top = 28.dp, start = 5.dp, end = 5.dp, bottom = 12.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                DatePicker(
-                    state = datePickerState,
-                    modifier = Modifier.padding(2.dp),
-                    title = {
-                        Text(text = "Date de l'observation")
-                    },
-                    showModeToggle = false
-                )
-                Row(
-                    modifier = Modifier
-                        .padding(top = 12.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    TextButton(onClick = { showDialog = false }) {
-                        Text(text = "Dismiss")
-                    }
-                    TextButton(
-                        onClick = {
-                            showDialog = false
-                            selectedDate = datePickerState.selectedDateMillis!!
-                        }
-                    ) {
-                        Text(text = "Confirm")
-                    }
-                }
-            }
-        }
-
-    }
-    Button(
-        onClick = { showDialog = true }
-    ) {
-        Text(text = "Show Date Picker")
-    }
+    DatePicker(
+        state = datePickerState,
+        modifier = Modifier.padding(2.dp),
+        title = {
+            Text(LocalContext.current.resources.getString(R.string.date_field))
+        })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HourField() {
-
-    Text(text = "HourField")
-
-    var selectedHour by remember {
-        mutableStateOf(0)
-    }
-
-    var selectedMinute by remember {
-        mutableStateOf(0)
-    }
-
-    Text(text = "Heure choisie = $selectedHour : $selectedMinute")
-
+fun HourField(
+    onTimeChange: (hour: Int, min: Int) -> Unit,
+    hour: Int,
+    min: Int
+) {
     var showDialog by remember {
         mutableStateOf(false)
     }
 
     val timePickerState = rememberTimePickerState(
-        initialHour = selectedHour,
-        initialMinute = selectedMinute
+        initialHour = hour,
+        initialMinute = min
+    )
+    Text(LocalContext.current.resources.getString(R.string.hour_field))
+    TextField(
+        value = "$hour:$min",
+        onValueChange = {  },
+        enabled = false,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = { showDialog = true }),
+        colors = TextFieldDefaults.colors(
+            disabledTextColor = Color.White
+        ),
+        readOnly = true
     )
 
     if (showDialog) {
@@ -176,57 +126,55 @@ fun HourField() {
                     horizontalArrangement = Arrangement.End
                 ) {
                     TextButton(onClick = { showDialog = false }) {
-                        Text(text = "Dismiss")
+                        Text(LocalContext.current.resources.getString(R.string.dismiss))
                     }
                     TextButton(
                         onClick = {
                             showDialog = false
-                            selectedHour = timePickerState.hour
-                            selectedMinute = timePickerState.minute
+                            onTimeChange(hour, min)
                         }
                     ) {
-                        Text(text = "Confirm")
+                        Text(LocalContext.current.resources.getString(R.string.confirm))
                     }
                 }
             }
         }
-    }
-
-    Button(
-        onClick = { showDialog = true }
-    ) {
-        Text(text = "Show Time Picker")
     }
 }
 
 
 @Composable
 fun LocationField() {
-    Text(text = "LocationField")
+    Text(LocalContext.current.resources.getString(R.string.location_field))
 }
 
 @Composable
-fun DepthField() {
-    Text(text = "DepthField")
+fun DepthField(
+    onDepthChange: (String) -> Unit,
+    depth: String
+) {
+    Text(LocalContext.current.resources.getString(R.string.depth_field))
     TextField(
-        value = "hey",
-        onValueChange = { },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        value = depth,
+        onValueChange = { onDepthChange(it) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        placeholder = { Text("0") },
+        suffix = { Text(" mètres") },
+        modifier = Modifier.fillMaxWidth()
     )
 }
 
 @Composable
 fun SituationField() {
-    Text(text = "SituationField")
     val situationList = LocalContext.current.resources.getStringArray(R.array.situation_field_array)
     var selected by remember { mutableStateOf(situationList.first()) }
     var expanded by remember { mutableStateOf(false) }
     Box {
         Column {
-            OutlinedTextField(
+            Text(LocalContext.current.resources.getString(R.string.hour_field))
+            TextField(
                 value = (selected),
                 onValueChange = { },
-                label = { Text(text = "Situation") },
                 modifier = Modifier.fillMaxWidth(),
                 trailingIcon = { Icon(Icons.Outlined.ArrowDropDown, null) },
                 readOnly = true

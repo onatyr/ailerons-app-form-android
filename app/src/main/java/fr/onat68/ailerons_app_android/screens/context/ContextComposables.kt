@@ -1,5 +1,6 @@
 package fr.onat68.ailerons_app_android.screens.context
 
+import android.location.Location
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -83,6 +85,7 @@ fun HourField(
         initialHour = hour,
         initialMinute = min
     )
+    timePickerState.hour
     Text(LocalContext.current.resources.getString(R.string.hour_field))
     TextField(
         value = "$hour:$min",
@@ -131,7 +134,7 @@ fun HourField(
                     TextButton(
                         onClick = {
                             showDialog = false
-                            onTimeChange(hour, min)
+                            onTimeChange(timePickerState.hour, timePickerState.minute)
                         }
                     ) {
                         Text(LocalContext.current.resources.getString(R.string.confirm))
@@ -144,8 +147,9 @@ fun HourField(
 
 
 @Composable
-fun LocationField() {
+fun LocationField(location: State<Location>) {
     Text(LocalContext.current.resources.getString(R.string.location_field))
+    Text("Latitude: ${location.value.latitude}, Longitude: ${location.value.longitude}")
 }
 
 @Composable

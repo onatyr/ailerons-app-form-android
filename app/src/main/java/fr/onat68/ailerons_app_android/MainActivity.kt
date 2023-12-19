@@ -1,50 +1,44 @@
 package fr.onat68.ailerons_app_android
 
 import android.Manifest
-import android.app.Activity
-import android.os.Build
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import fr.onat68.ailerons_app_android.Constants.REQUEST_CODE_LOCATION_PERMISSION
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import fr.onat68.ailerons_app_android.screens.context.ContextViewModel
 import fr.onat68.ailerons_app_android.screens.context.ObservationContextScreen
 import fr.onat68.ailerons_app_android.ui.theme.AileronsAppAndroidTheme
-import pub.devrel.easypermissions.EasyPermissions
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var fusedLocationClient: FusedLocationProviderClient
     override fun onCreate(savedInstanceState: Bundle?) {
-//        requestPermissions(this)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this, arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION), 0)
+            return
+        }
+        fusedLocationClient
+
         super.onCreate(savedInstanceState)
-        val ContextViewModel = ContextViewModel()
+        val contextViewModel = ContextViewModel(fusedLocationClient)
         setContent {
             AileronsAppAndroidTheme {
-                ObservationContextScreen(ContextViewModel)
+                ObservationContextScreen(contextViewModel)
             }
         }
-    }
-}
-
-fun requestPermissions(activity: Activity) {
-    if (LocationUtility.hasLocationPermissions(activity)) {
-        return
-    }
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-        EasyPermissions.requestPermissions(
-            activity,
-            "You need to accept location permissions",
-            REQUEST_CODE_LOCATION_PERMISSION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-    } else {
-        EasyPermissions.requestPermissions(
-            activity,
-            "You need to accept location permissions",
-            REQUEST_CODE_LOCATION_PERMISSION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
-        )
     }
 }

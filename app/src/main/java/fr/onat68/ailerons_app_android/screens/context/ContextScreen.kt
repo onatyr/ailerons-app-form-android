@@ -1,5 +1,6 @@
 package fr.onat68.ailerons_app_android.screens.context
 
+import android.location.Location
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import fr.onat68.ailerons_app_android.FormulaireModel
 @Composable
 fun ObservationContextScreen(contextViewModel: ContextViewModel){
     val newForm: State<FormulaireModel> = contextViewModel.newForm.collectAsState(initial = FormulaireModel())
+    val location: State<Location> = contextViewModel.location.collectAsState(initial = Location("observationLocation"))
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -21,7 +23,7 @@ fun ObservationContextScreen(contextViewModel: ContextViewModel){
         Spacer(modifier = Modifier.height(16.dp))
         HourField(contextViewModel::onTimeChange, newForm.value.hour, newForm.value.min)
         Spacer(modifier = Modifier.height(16.dp))
-        LocationField()
+        LocationField(location)
         Spacer(modifier = Modifier.height(16.dp))
         DepthField(contextViewModel::onDepthChange, newForm.value.depth)
         Spacer(modifier = Modifier.height(16.dp))

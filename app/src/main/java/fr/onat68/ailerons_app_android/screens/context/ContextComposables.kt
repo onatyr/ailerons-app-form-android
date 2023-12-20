@@ -171,14 +171,15 @@ fun HourField(
 
 
 @Composable
-fun LocationField(location: LatLng) {
+fun LocationField(location: LatLng, navigate: (String) -> Unit) {
     Text(LocalContext.current.resources.getString(R.string.location_field))
     TextField(
         value = "Latitude: ${location.latitude}, Longitude: ${location.longitude}",
         onValueChange = { },
         enabled = false,
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = { navigate("mapView") }),
         colors = TextFieldDefaults.colors(
             disabledTextColor = Color.White
         )

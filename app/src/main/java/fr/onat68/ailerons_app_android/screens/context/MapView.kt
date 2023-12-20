@@ -1,10 +1,8 @@
 package fr.onat68.ailerons_app_android.screens.context
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -18,7 +16,7 @@ fun MapView(gpsLocation: LatLng){
         position = CameraPosition.fromLatLngZoom(gpsLocation, 10f)
     }
     GoogleMap(
-        modifier = Modifier.fillMaxWidth().height(150.dp),
+        modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
     ) {
         Marker(

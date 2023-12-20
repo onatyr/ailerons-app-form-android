@@ -11,11 +11,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.google.android.gms.maps.model.LatLng
 import fr.onat68.ailerons_app_android.FormulaireModel
 
 @Composable
-fun ContextScreen(contextViewModel: ContextViewModel) {
+fun ContextScreen(contextViewModel: ContextViewModel, navController: NavController) {
     val newForm: State<FormulaireModel> =
         contextViewModel.newForm.collectAsState(initial = FormulaireModel())
     val location: State<LatLng> =
@@ -31,7 +32,7 @@ fun ContextScreen(contextViewModel: ContextViewModel) {
             Spacer(modifier = Modifier.height(16.dp))
             HourField(contextViewModel::onTimeChange, newForm.value.hour, newForm.value.min)
             Spacer(modifier = Modifier.height(16.dp))
-            LocationField(location.value)
+            LocationField(location.value, navController::navigate)
             Spacer(modifier = Modifier.height(16.dp))
             DepthField(contextViewModel::onDepthChange, newForm.value.depth)
             Spacer(modifier = Modifier.height(16.dp))

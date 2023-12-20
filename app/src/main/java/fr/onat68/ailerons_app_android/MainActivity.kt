@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 NavHost(navController = navController, startDestination = "contextScreen"){
-                    composable("contextScreen"){ ContextScreen(contextViewModel) }
+                    composable("contextScreen"){ ContextScreen(contextViewModel, navController) }
                     composable("mapView"){ MapView(location.value) }
                 }
             }

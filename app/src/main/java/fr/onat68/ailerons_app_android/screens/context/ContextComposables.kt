@@ -1,6 +1,5 @@
 package fr.onat68.ailerons_app_android.screens.context
 
-import android.location.Location
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +30,6 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +41,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.maps.model.LatLng
 import fr.onat68.ailerons_app_android.R
 import java.util.Calendar
 
@@ -172,17 +171,17 @@ fun HourField(
 
 
 @Composable
-fun LocationField(location: State<Location>) {
+fun LocationField(location: LatLng) {
     Text(LocalContext.current.resources.getString(R.string.location_field))
     TextField(
-        value = "Latitude: ${location.value.latitude}, Longitude: ${location.value.longitude}",
+        value = "Latitude: ${location}, Longitude: ${location}",
         onValueChange = { },
         enabled = false,
         modifier = Modifier
             .fillMaxWidth(),
         colors = TextFieldDefaults.colors(
             disabledTextColor = Color.White
-        ),
+        )
     )
 }
 

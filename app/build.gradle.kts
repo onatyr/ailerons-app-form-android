@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.relay") version "0.3.09"
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -52,8 +53,12 @@ android {
 
 dependencies {
 
-    implementation("com.mapbox.maps:android:11.0.0")
-    implementation("com.mapbox.extension:maps-compose:11.0.0")
+//    implementation("com.mapbox.maps:android:11.0.0")
+//    implementation("com.mapbox.extension:maps-compose:11.0.0")
+
+    implementation("com.google.maps.android:maps-compose:4.3.0")
+
+//    implementation("org.osmdroid:osmdroid-android:6.1.17")
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
@@ -73,3 +78,4 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
+

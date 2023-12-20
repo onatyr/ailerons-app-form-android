@@ -13,9 +13,12 @@ import androidx.compose.ui.unit.dp
 import fr.onat68.ailerons_app_android.FormulaireModel
 
 @Composable
-fun ObservationContextScreen(contextViewModel: ContextViewModel){
-    val newForm: State<FormulaireModel> = contextViewModel.newForm.collectAsState(initial = FormulaireModel())
-    val location: State<Location> = contextViewModel.location.collectAsState(initial = Location("observationLocation"))
+fun ObservationContextScreen(contextViewModel: ContextViewModel) {
+    val newForm: State<FormulaireModel> =
+        contextViewModel.newForm.collectAsState(initial = FormulaireModel())
+    val location: State<Location> =
+        contextViewModel.location.collectAsState(initial = Location("observationLocation"))
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -28,5 +31,6 @@ fun ObservationContextScreen(contextViewModel: ContextViewModel){
         DepthField(contextViewModel::onDepthChange, newForm.value.depth)
         Spacer(modifier = Modifier.height(16.dp))
         SituationField()
+
     }
 }

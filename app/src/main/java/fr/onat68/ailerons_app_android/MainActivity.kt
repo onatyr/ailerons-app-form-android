@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -37,7 +39,11 @@ class MainActivity : ComponentActivity() {
         val contextViewModel = ContextViewModel(fusedLocationClient)
         setContent {
             AileronsAppAndroidTheme {
-                ObservationContextScreen(contextViewModel)
+                Surface(
+                    color = MaterialTheme.colorScheme.primary
+                ){
+                    ObservationContextScreen(contextViewModel)
+                }
             }
         }
     }

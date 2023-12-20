@@ -6,6 +6,9 @@
     <string name="location_field">Lieu</string>
     <string name="depth_field">Profondeur</string>
     <string name="situation_field">Situation</string>
+    <string name="meters"> mètres</string>
+
+<!--    LocalContext.current.resources.getString(R.string.<string name>)-->
 
 
     <string-array name="situation_field_array">

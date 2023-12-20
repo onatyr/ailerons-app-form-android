@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.relay") version "0.3.09"
 }
 
 android {
@@ -53,8 +54,6 @@ dependencies {
 
     implementation("com.mapbox.maps:android:11.0.0")
     implementation("com.mapbox.extension:maps-compose:11.0.0")
-
-    implementation ("pub.devrel:easypermissions:3.0.0")
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

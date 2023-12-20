@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.onat68.ailerons_app_android.R
 import java.util.Calendar
@@ -48,6 +49,7 @@ import java.util.Calendar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateField() {
+    Text(LocalContext.current.resources.getString(R.string.date_field))
     val currentDate = Calendar.getInstance().timeInMillis
     var selectedDate by remember {
         mutableStateOf(currentDate)
@@ -61,13 +63,36 @@ fun DateField() {
         initialSelectedDateMillis = currentDate,
         initialDisplayMode = DisplayMode.Input
     )
-
+//    DatePickerDialog(
+//        colors = DatePickerDefaults.colors(
+//            containerColor = Color.Black,
+//            titleContentColor = Color.Black,
+//            headlineContentColor = Color.Black,
+//            weekdayContentColor = Color.Black,
+//            subheadContentColor = Color.Black,
+//            yearContentColor = Color.Black,
+//            currentYearContentColor = Color.Black,
+//            selectedYearContentColor = Color.Black,
+//            selectedYearContainerColor = Color.Black,
+//            dayContentColor = Color.Black,
+//            disabledDayContentColor = Color.Black,
+//            selectedDayContentColor = Color.Black,
+//            disabledSelectedDayContentColor = Color.Black,
+//            selectedDayContainerColor = Color.Black,
+//            disabledSelectedDayContainerColor = Color.Black,
+//            todayContentColor = Color.Black,
+//            todayDateBorderColor = Color.Black,
+//        ),
+//        onDismissRequest = {},
+//        dismissButton = { Text(LocalContext.current.resources.getString(R.string.dismiss)) },
+//        confirmButton = { Text(LocalContext.current.resources.getString(R.string.confirm)) }
+//
+//    ) {
     DatePicker(
         state = datePickerState,
         modifier = Modifier.padding(2.dp),
-        title = {
-            Text(LocalContext.current.resources.getString(R.string.date_field))
-        })
+    )
+//    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -89,7 +114,7 @@ fun HourField(
     Text(LocalContext.current.resources.getString(R.string.hour_field))
     TextField(
         value = "$hour:$min",
-        onValueChange = {  },
+        onValueChange = { },
         enabled = false,
         modifier = Modifier
             .fillMaxWidth()
@@ -149,7 +174,16 @@ fun HourField(
 @Composable
 fun LocationField(location: State<Location>) {
     Text(LocalContext.current.resources.getString(R.string.location_field))
-    Text("Latitude: ${location.value.latitude}, Longitude: ${location.value.longitude}")
+    TextField(
+        value = "Latitude: ${location.value.latitude}, Longitude: ${location.value.longitude}",
+        onValueChange = { },
+        enabled = false,
+        modifier = Modifier
+            .fillMaxWidth(),
+        colors = TextFieldDefaults.colors(
+            disabledTextColor = Color.White
+        ),
+    )
 }
 
 @Composable
@@ -163,9 +197,15 @@ fun DepthField(
         onValueChange = { onDepthChange(it) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         placeholder = { Text("0") },
-        suffix = { Text(" mètres") },
+        suffix = { Text(LocalContext.current.resources.getString(R.string.meters)) },
         modifier = Modifier.fillMaxWidth()
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DepthFieldPreview() {
+    Text("Hey")
 }
 
 @Composable

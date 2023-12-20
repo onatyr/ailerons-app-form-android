@@ -35,4 +35,8 @@ class ContextViewModel(fusedLocationClient: FusedLocationProviderClient) : ViewM
         }
     }
 
+    fun onChangeLocation(newLocation: LatLng){
+        _location.value = newLocation
+    }
+
 }

@@ -5,16 +5,18 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.core.app.ActivityCompat
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import fr.onat68.ailerons_app_android.screens.context.ContextScreen
 import fr.onat68.ailerons_app_android.screens.context.ContextViewModel
+import fr.onat68.ailerons_app_android.screens.context.MapView
 import fr.onat68.ailerons_app_android.ui.theme.AileronsAppAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -47,11 +49,11 @@ class MainActivity : ComponentActivity() {
             AileronsAppAndroidTheme {
                 val location: State<LatLng> =
                     contextViewModel.location.collectAsState(initial = LatLng(48.8738556,2.3588788))
-                Surface(
-                    color = MaterialTheme.colorScheme.primary
-                ) {
-                    ContextScreen(contextViewModel)
-//                    MapView(location.value)
+                val navController = rememberNavController()
+
+                NavHost(navController = navController, startDestination = "contextScreen"){
+                    composable("contextScreen"){ ContextScreen(contextViewModel) }
+                    composable("mapView"){ MapView(location.value) }
                 }
             }
         }

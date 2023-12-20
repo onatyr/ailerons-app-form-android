@@ -174,7 +174,7 @@ fun HourField(
 fun LocationField(location: LatLng) {
     Text(LocalContext.current.resources.getString(R.string.location_field))
     TextField(
-        value = "Latitude: ${location}, Longitude: ${location}",
+        value = "Latitude: ${location.latitude}, Longitude: ${location.longitude}",
         onValueChange = { },
         enabled = false,
         modifier = Modifier

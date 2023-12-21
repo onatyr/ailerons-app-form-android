@@ -14,5 +14,12 @@ data class FormulaireModel(
     val min: Int = LocalTime.now().minute,
     val location: Location? = null,
     val depth: String = "",
-    val situation: String = "Plongée"
+    val situation: String = "Plongée",
+    val species: String = "",
+    val speciesName: String = "",
+    val sex: String = "",
+    val numberObserved: Int = 0,
+    val exactNumber: Boolean = false,
+    val specimenSize: Int = 0,
+    val exactSize: Boolean = false,
 )

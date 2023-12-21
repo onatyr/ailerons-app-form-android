@@ -14,6 +14,8 @@ import com.google.android.gms.location.LocationServices
 import fr.onat68.ailerons_app_android.screens.context.ContextScreen
 import fr.onat68.ailerons_app_android.screens.context.ContextViewModel
 import fr.onat68.ailerons_app_android.screens.context.MapView
+import fr.onat68.ailerons_app_android.screens.observation.ObservationScreen
+import fr.onat68.ailerons_app_android.screens.observation.ObservationViewModel
 import fr.onat68.ailerons_app_android.ui.theme.AileronsAppAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -42,6 +44,7 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         val contextViewModel = ContextViewModel(fusedLocationClient)
+        val observationViewModel = ObservationViewModel()
         setContent {
             AileronsAppAndroidTheme {
                 val navController = rememberNavController()
@@ -49,6 +52,9 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "contextScreen"){
                     composable("contextScreen"){ ContextScreen(contextViewModel, navController) }
                     composable("mapView"){ MapView(contextViewModel) }
+                }
+                NavHost(navController = navController, startDestination = "observationScreen"){
+                    composable("observationScreen"){ ObservationScreen(observationViewModel, navController) }
                 }
             }
         }

@@ -17,26 +17,29 @@ class ContextViewModel(fusedLocationClient: FusedLocationProviderClient) : ViewM
     private val _newForm = MutableStateFlow(FormulaireModel())
     val newForm: Flow<FormulaireModel> = _newForm
 
-    private var _location = MutableStateFlow(LatLng(48.8738556,2.3588788)) //(Location("observationLocation"))
+    private var _location = MutableStateFlow(LatLng(48.8738556,2.3588788))
     val location: Flow<LatLng> = _location
     val requestLocation =
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { lastLocation: Location -> // Attention, peut faire planter dans de rare cas car nullable
-                _location.value = LatLng(lastLocation.latitude,lastLocation.longitude)
+                _newForm.value = _newForm.value.copy(location = LatLng(lastLocation.latitude,lastLocation.longitude))
             }
 
-    fun onTimeChange(hour: Int, min: Int) {
-        _newForm.value = _newForm.value.copy(hour = hour, min = min)
+    fun onDateChange(newDate: Long){
+        _newForm.value = _newForm.value.copy(date = newDate)
     }
-
-    fun onDepthChange(depth: String) {
-        if (depth.isDigitsOnly()) {
-            _newForm.value = _newForm.value.copy(depth = depth)
+    fun onTimeChange(newHour: Int, newMin: Int) {
+        _newForm.value = _newForm.value.copy(hour = newHour, min = newMin)
+    }
+    fun onLocationChange(newLocation: LatLng){
+        _newForm.value = _newForm.value.copy(location = newLocation)
+    }
+    fun onDepthChange(newDepth: String) {
+        if (newDepth.isDigitsOnly()) {
+            _newForm.value = _newForm.value.copy(depth = newDepth)
         }
     }
-
-    fun onChangeLocation(newLocation: LatLng){
-        _location.value = newLocation
+    fun onSituationChange(newSituation: String){
+        _newForm.value = _newForm.value.copy(situation = newSituation)
     }
-
 }

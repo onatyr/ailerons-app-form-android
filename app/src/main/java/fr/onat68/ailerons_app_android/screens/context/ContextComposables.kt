@@ -16,12 +16,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -43,55 +46,91 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.LatLng
 import fr.onat68.ailerons_app_android.R
-import java.util.Calendar
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DateField() {
+fun DateField(
+    onDateChange: (Long) -> Unit,
+    date: Long
+) {
     Text(LocalContext.current.resources.getString(R.string.date_field))
-    val currentDate = Calendar.getInstance().timeInMillis
-    var selectedDate by remember {
-        mutableStateOf(currentDate)
-    }
 
-    var showDialog by remember {
+    var showDatePicker by remember {
         mutableStateOf(false)
     }
 
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = currentDate,
-        initialDisplayMode = DisplayMode.Input
+    TextField(
+        value = Date(date).toString(),
+        onValueChange = { },
+        enabled = false,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = { showDatePicker = true }),
+        colors = TextFieldDefaults.colors(
+            disabledTextColor = Color.White
+        ),
+        readOnly = true
     )
-//    DatePickerDialog(
-//        colors = DatePickerDefaults.colors(
-//            containerColor = Color.Black,
-//            titleContentColor = Color.Black,
-//            headlineContentColor = Color.Black,
-//            weekdayContentColor = Color.Black,
-//            subheadContentColor = Color.Black,
-//            yearContentColor = Color.Black,
-//            currentYearContentColor = Color.Black,
-//            selectedYearContentColor = Color.Black,
-//            selectedYearContainerColor = Color.Black,
-//            dayContentColor = Color.Black,
-//            disabledDayContentColor = Color.Black,
-//            selectedDayContentColor = Color.Black,
-//            disabledSelectedDayContentColor = Color.Black,
-//            selectedDayContainerColor = Color.Black,
-//            disabledSelectedDayContainerColor = Color.Black,
-//            todayContentColor = Color.Black,
-//            todayDateBorderColor = Color.Black,
-//        ),
-//        onDismissRequest = {},
-//        dismissButton = { Text(LocalContext.current.resources.getString(R.string.dismiss)) },
-//        confirmButton = { Text(LocalContext.current.resources.getString(R.string.confirm)) }
-//
-//    ) {
-    DatePicker(
-        state = datePickerState,
-        modifier = Modifier.padding(2.dp),
-    )
-//    }
+
+    if (showDatePicker) {
+
+        val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = date,
+            initialDisplayMode = DisplayMode.Input,
+            selectableDates = object : SelectableDates {
+                override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                    return utcTimeMillis <= System.currentTimeMillis()
+                }
+                override fun isSelectableYear(year: Int): Boolean {
+                    return year <= Date().year + 1900
+                }
+            }
+        )
+        DatePickerDialog(
+            colors = DatePickerDefaults.colors(
+                containerColor = Color.Black,
+                titleContentColor = Color.Black,
+                headlineContentColor = Color.Black,
+                weekdayContentColor = Color.Black,
+                subheadContentColor = Color.Black,
+                yearContentColor = Color.Black,
+                currentYearContentColor = Color.Black,
+                selectedYearContentColor = Color.Black,
+                selectedYearContainerColor = Color.Black,
+                dayContentColor = Color.Black,
+                disabledDayContentColor = Color.Black,
+                selectedDayContentColor = Color.Black,
+                disabledSelectedDayContentColor = Color.Black,
+                selectedDayContainerColor = Color.Black,
+                disabledSelectedDayContainerColor = Color.Black,
+                todayContentColor = Color.Black,
+                todayDateBorderColor = Color.Black,
+            ),
+            onDismissRequest = { showDatePicker = false },
+            dismissButton = {
+                TextButton(onClick = {
+                    showDatePicker = false
+                }) {
+                    Text(LocalContext.current.resources.getString(R.string.dismiss))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    onDateChange(datePickerState.selectedDateMillis!!)
+                    showDatePicker = false
+                }) {
+                    Text(LocalContext.current.resources.getString(R.string.confirm))
+                }
+            }
+
+        ) {
+            DatePicker(
+                state = datePickerState,
+                modifier = Modifier.padding(2.dp)
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -209,15 +248,17 @@ fun DepthFieldPreview() {
 }
 
 @Composable
-fun SituationField() {
+fun SituationField(
+    onSituationChange: (String) -> Unit,
+    selectedSituation: String
+) {
     val situationList = LocalContext.current.resources.getStringArray(R.array.situation_field_array)
-    var selected by remember { mutableStateOf(situationList.first()) }
     var expanded by remember { mutableStateOf(false) }
     Box {
         Column {
-            Text(LocalContext.current.resources.getString(R.string.hour_field))
+            Text(LocalContext.current.resources.getString(R.string.situation_field))
             TextField(
-                value = (selected),
+                value = (selectedSituation),
                 onValueChange = { },
                 modifier = Modifier.fillMaxWidth(),
                 trailingIcon = { Icon(Icons.Outlined.ArrowDropDown, null) },
@@ -233,7 +274,7 @@ fun SituationField() {
                     DropdownMenuItem(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
-                            selected = entry
+                            onSituationChange(entry)
                             expanded = false
                         },
                         text = {
@@ -260,24 +301,3 @@ fun SituationField() {
     }
 }
 
-//@Composable
-//fun Map(context: Context) {
-//    var mapView = MapView(context)
-//    mapView.mapboxMap.setCamera(
-//        CameraOptions.Builder()
-//            .center(Point.fromLngLat(-98.0, 39.5))
-//            .pitch(0.0)
-//            .zoom(2.0)
-//            .bearing(0.0)
-//            .build()
-//    )
-//    setContentView(mapView)
-//    with(mapView) {
-//        location.locationPuck = createDefault2DPuck(withBearing = true)
-//        location.enabled = true
-//        location.puckBearing = com.mapbox.maps.plugin.PuckBearing.COURSE
-//        viewport.transitionTo(
-//            targetState = viewport.makeFollowPuckViewportState(),
-//            transition = viewport.makeImmediateViewportTransition()
-//        )
-//}

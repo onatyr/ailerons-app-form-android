@@ -13,7 +13,7 @@
 
     <string-array name="situation_field_array">
         <item>Plongée</item>
-        <item>SnorkellingPlaisance</item>
+        <item>Snorkelling/Plaisance</item>
         <item>Pêche</item>
         <item>Echouage</item>
         <item>Laisses de mer</item>

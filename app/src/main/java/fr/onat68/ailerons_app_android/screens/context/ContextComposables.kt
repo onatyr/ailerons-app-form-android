@@ -1,5 +1,7 @@
 package fr.onat68.ailerons_app_android.screens.context
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowDropDown
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
@@ -30,6 +32,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -45,9 +48,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.LatLng
+import fr.onat68.ailerons_app_android.DateFormatter
 import fr.onat68.ailerons_app_android.R
 import java.util.Date
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateField(
@@ -55,13 +60,14 @@ fun DateField(
     date: Long
 ) {
     Text(LocalContext.current.resources.getString(R.string.date_field))
+    val formatedDate = DateFormatter(Date(date)).ddMMYYYY
 
     var showDatePicker by remember {
         mutableStateOf(false)
     }
 
     TextField(
-        value = Date(date).toString(),
+        value = formatedDate,
         onValueChange = { },
         enabled = false,
         modifier = Modifier
@@ -82,6 +88,7 @@ fun DateField(
                 override fun isSelectableDate(utcTimeMillis: Long): Boolean {
                     return utcTimeMillis <= System.currentTimeMillis()
                 }
+
                 override fun isSelectableYear(year: Int): Boolean {
                     return year <= Date().year + 1900
                 }
@@ -164,14 +171,14 @@ fun HourField(
     )
 
     if (showDialog) {
-        AlertDialog(
+        BasicAlertDialog(
+            onDismissRequest = { showDialog = false },
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
                     color = MaterialTheme.colorScheme.surface,
                     shape = RoundedCornerShape(size = 12.dp)
-                ),
-            onDismissRequest = { showDialog = false }
+                )
         ) {
             Column(
                 modifier = Modifier
@@ -182,9 +189,7 @@ fun HourField(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TimePicker(state = timePickerState)
-
-                // buttons
+                TimePicker(state = timePickerState, colors = TimePickerDefaults.colors(Color.Black))
                 Row(
                     modifier = Modifier
                         .padding(top = 12.dp)
@@ -300,4 +305,6 @@ fun SituationField(
         )
     }
 }
+
+
 

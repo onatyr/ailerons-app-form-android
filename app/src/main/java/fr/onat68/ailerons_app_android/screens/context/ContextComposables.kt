@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.BasicAlertDialog
@@ -28,7 +27,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -51,9 +49,12 @@ import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.LatLng
 import fr.onat68.ailerons_app_android.R
 import fr.onat68.ailerons_app_android.UIElements.DatePickerUI
+import fr.onat68.ailerons_app_android.UIElements.ModifierUI
 import fr.onat68.ailerons_app_android.formaters.DateFormatter
 import fr.onat68.ailerons_app_android.formaters.LocationFormatter
 import java.util.Date
+
+val fieldModifier = ModifierUI.fieldModifier
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,18 +64,17 @@ fun DateField(
     date: Long
 ) {
     Text(LocalContext.current.resources.getString(R.string.date_field))
-    val formatedDate = DateFormatter(Date(date)).ddMMYYYY
+    val formatedDate = DateFormatter(Date(date))
 
     var showDatePicker by remember {
         mutableStateOf(false)
     }
 
     TextField(
-        value = formatedDate,
+        value = formatedDate.ddMMYYYY,
         onValueChange = { },
         enabled = false,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = fieldModifier
             .clickable(onClick = { showDatePicker = true }),
         colors = TextFieldDefaults.colors(
             disabledTextColor = Color.White
@@ -87,15 +87,7 @@ fun DateField(
         val datePickerState = rememberDatePickerState(
             initialSelectedDateMillis = date,
             initialDisplayMode = DisplayMode.Input,
-            selectableDates = object : SelectableDates {
-                override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                    return utcTimeMillis <= System.currentTimeMillis()
-                }
-
-                override fun isSelectableYear(year: Int): Boolean {
-                    return year <= Date().year + 1900
-                }
-            }
+            selectableDates = formatedDate.selectableDates
         )
         DatePickerDialog(
             colors = DatePickerUI.CustomDatePickerColors(),
@@ -146,8 +138,7 @@ fun HourField(
         value = "$hour:$min",
         onValueChange = { },
         enabled = false,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = fieldModifier
             .clickable(onClick = { showDialog = true }),
         colors = TextFieldDefaults.colors(
             disabledTextColor = Color.White
@@ -208,8 +199,7 @@ fun LocationField(getLastLocation: () -> Unit, location: LatLng, navigate: (Stri
             value = "Latitude: ${stringFormatedLocation.latitude}, Longitude: ${stringFormatedLocation.longitude}",
             onValueChange = { },
             enabled = false,
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = fieldModifier
                 .clickable(onClick = { navigate("mapView") }),
             colors = TextFieldDefaults.colors(
                 disabledTextColor = Color.White
@@ -225,14 +215,6 @@ fun LocationField(getLastLocation: () -> Unit, location: LatLng, navigate: (Stri
     }
 
 }
-
-@Composable
-fun ReloadLocation(getLastLocation: () -> Unit) {
-    IconButton(onClick = getLastLocation) {
-        Icon(imageVector = Icons.Default.LocationOn, contentDescription = "Location")
-    }
-}
-
 @Composable
 fun DepthField(
     onDepthChange: (String) -> Unit,
@@ -245,7 +227,7 @@ fun DepthField(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         placeholder = { Text("0") },
         suffix = { Text(LocalContext.current.resources.getString(R.string.meters)) },
-        modifier = Modifier.fillMaxWidth()
+        modifier = fieldModifier
     )
 }
 @Composable
@@ -261,7 +243,7 @@ fun SituationField(
             TextField(
                 value = (selectedSituation),
                 onValueChange = { },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = fieldModifier,
                 trailingIcon = { Icon(Icons.Outlined.ArrowDropDown, null) },
                 readOnly = true
             )

@@ -1,4 +1,4 @@
-package fr.onat68.ailerons_app_android.screens.context.formaters
+package fr.onat68.ailerons_app_android.formaters
 
 import java.util.Date
 

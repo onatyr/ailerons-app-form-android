@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.DatePicker
@@ -25,6 +27,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
@@ -215,19 +218,37 @@ fun HourField(
 
 
 @Composable
-fun LocationField(location: LatLng, navigate: (String) -> Unit) {
+fun LocationField(getLastLocation: () -> Unit, location: LatLng, navigate: (String) -> Unit) {
+    val stringFormatedLocation = LocationFormatter(location, 5)
     Text(LocalContext.current.resources.getString(R.string.location_field))
-    TextField(
-        value = "Latitude: ${location.latitude}, Longitude: ${location.longitude}",
-        onValueChange = { },
-        enabled = false,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = { navigate("mapView") }),
-        colors = TextFieldDefaults.colors(
-            disabledTextColor = Color.White
+    Box(modifier = Modifier.fillMaxWidth()) {
+        TextField(
+            value = "Latitude: ${stringFormatedLocation.latitude}, Longitude: ${stringFormatedLocation.longitude}",
+            onValueChange = { },
+            enabled = false,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = { navigate("mapView") }),
+            colors = TextFieldDefaults.colors(
+                disabledTextColor = Color.White
+            )
         )
-    )
+        IconButton(onClick = getLastLocation, modifier = Modifier.align(Alignment.CenterEnd)) {
+            Icon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = "Location",
+                tint = Color.White
+            )
+        }
+    }
+
+}
+
+@Composable
+fun ReloadLocation(getLastLocation: () -> Unit) {
+    IconButton(onClick = getLastLocation) {
+        Icon(imageVector = Icons.Default.LocationOn, contentDescription = "Location")
+    }
 }
 
 @Composable

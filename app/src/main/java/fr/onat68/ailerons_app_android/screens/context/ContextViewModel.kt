@@ -16,14 +16,18 @@ class ContextViewModel(fusedLocationClient: FusedLocationProviderClient) : ViewM
 
     private val _newForm = MutableStateFlow(FormulaireModel())
     val newForm: Flow<FormulaireModel> = _newForm
+    lateinit var currentLocation: LatLng
 
-    private var _location = MutableStateFlow(LatLng(48.8738556,2.3588788))
-    val location: Flow<LatLng> = _location
     val requestLocation =
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { lastLocation: Location -> // Attention, peut faire planter dans de rare cas car nullable
                 _newForm.value = _newForm.value.copy(location = LatLng(lastLocation.latitude,lastLocation.longitude))
+                currentLocation = LatLng(lastLocation.latitude,lastLocation.longitude)
             }
+
+   fun getLastLocation() {
+    _newForm.value = _newForm.value.copy(location = currentLocation)
+   }
 
     fun onDateChange(newDate: Long){
         _newForm.value = _newForm.value.copy(date = newDate)

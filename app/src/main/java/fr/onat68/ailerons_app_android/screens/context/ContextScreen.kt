@@ -2,6 +2,7 @@ package fr.onat68.ailerons_app_android.screens.context
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import fr.onat68.ailerons_app_android.FormulaireModel
 
@@ -34,7 +36,7 @@ fun ContextScreen(contextViewModel: ContextViewModel, navController: NavControll
             modifier = Modifier
                 .fillMaxSize()
                 .wrapContentSize(align = Alignment.Center),
-//            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(25.dp)
 
         ) {
             DateField(contextViewModel::onDateChange, newForm.value.date)

@@ -20,7 +20,6 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.DropdownMenu
@@ -48,11 +47,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.LatLng
-import fr.onat68.ailerons_app_android.DateFormatter
 import fr.onat68.ailerons_app_android.R
+import fr.onat68.ailerons_app_android.screens.context.UIElements.DatePickerUI
+import fr.onat68.ailerons_app_android.screens.context.formaters.DateFormatter
+import fr.onat68.ailerons_app_android.screens.context.formaters.LocationFormatter
 import java.util.Date
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -98,25 +98,7 @@ fun DateField(
             }
         )
         DatePickerDialog(
-            colors = DatePickerDefaults.colors(
-                containerColor = Color.Black,
-                titleContentColor = Color.Black,
-                headlineContentColor = Color.Black,
-                weekdayContentColor = Color.Black,
-                subheadContentColor = Color.Black,
-                yearContentColor = Color.Black,
-                currentYearContentColor = Color.Black,
-                selectedYearContentColor = Color.Black,
-                selectedYearContainerColor = Color.Black,
-                dayContentColor = Color.Black,
-                disabledDayContentColor = Color.Black,
-                selectedDayContentColor = Color.Black,
-                disabledSelectedDayContentColor = Color.Black,
-                selectedDayContainerColor = Color.Black,
-                disabledSelectedDayContainerColor = Color.Black,
-                todayContentColor = Color.Black,
-                todayDateBorderColor = Color.Black,
-            ),
+            colors = DatePickerUI.CustomDatePickerColors(),
             onDismissRequest = { showDatePicker = false },
             dismissButton = {
                 TextButton(onClick = {
@@ -266,13 +248,6 @@ fun DepthField(
         modifier = Modifier.fillMaxWidth()
     )
 }
-
-@Preview(showBackground = true)
-@Composable
-fun DepthFieldPreview() {
-    Text("Hey")
-}
-
 @Composable
 fun SituationField(
     onSituationChange: (String) -> Unit,

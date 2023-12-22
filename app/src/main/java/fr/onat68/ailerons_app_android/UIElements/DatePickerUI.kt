@@ -1,4 +1,4 @@
-package fr.onat68.ailerons_app_android.screens.context.UIElements
+package fr.onat68.ailerons_app_android.UIElements
 
 import androidx.compose.material3.DatePickerColors
 import androidx.compose.material3.DatePickerDefaults

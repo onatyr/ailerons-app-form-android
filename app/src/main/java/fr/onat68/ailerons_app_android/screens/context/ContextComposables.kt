@@ -50,7 +50,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.LatLng
 import fr.onat68.ailerons_app_android.R
-import fr.onat68.ailerons_app_android.screens.context.UIElements.DatePickerUI
+import fr.onat68.ailerons_app_android.UIElements.DatePickerUI
 import fr.onat68.ailerons_app_android.screens.context.formaters.DateFormatter
 import fr.onat68.ailerons_app_android.screens.context.formaters.LocationFormatter
 import java.util.Date

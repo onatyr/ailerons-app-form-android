@@ -17,6 +17,9 @@ import fr.onat68.ailerons_app_android.screens.context.MapView
 import fr.onat68.ailerons_app_android.screens.observation.ObservationScreen
 import fr.onat68.ailerons_app_android.screens.observation.ObservationViewModel
 import fr.onat68.ailerons_app_android.ui.theme.AileronsAppAndroidTheme
+import androidx.compose.ui.text.googlefonts.GoogleFont
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.googlefonts.Font
 
 class MainActivity : ComponentActivity() {
 
@@ -43,17 +46,15 @@ class MainActivity : ComponentActivity() {
         fusedLocationClient
 
         super.onCreate(savedInstanceState)
-        val contextViewModel = ContextViewModel(fusedLocationClient)
+        // val contextViewModel = ContextViewModel(fusedLocationClient)
         val observationViewModel = ObservationViewModel()
         setContent {
             AileronsAppAndroidTheme {
                 val navController = rememberNavController()
 
-                NavHost(navController = navController, startDestination = "contextScreen"){
-                    composable("contextScreen"){ ContextScreen(contextViewModel, navController) }
-                    composable("mapView"){ MapView(contextViewModel) }
-                }
                 NavHost(navController = navController, startDestination = "observationScreen"){
+                    //composable("contextScreen"){ ContextScreen(contextViewModel, navController) }
+                    //composable("mapView"){ MapView(contextViewModel) }
                     composable("observationScreen"){ ObservationScreen(observationViewModel, navController) }
                 }
             }

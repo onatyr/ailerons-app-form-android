@@ -1,5 +1,11 @@
 <resources>
+    <!--    LocalContext.current.resources.getString(R.string.<string name>)-->
     <string name="app_name">Ailerons-App-Android</string>
+
+    <string name="dismiss">Annuler</string>
+    <string name="confirm">Confirmer</string>
+
+<!--    Screens.ContextScreen-->
 
     <string name="date_field">Date de l\'observation</string>
     <string name="hour_field">Heure de l\'observation</string>
@@ -7,9 +13,6 @@
     <string name="depth_field">Profondeur</string>
     <string name="situation_field">Situation</string>
     <string name="meters"> mètres</string>
-
-<!--    LocalContext.current.resources.getString(R.string.<string name>)-->
-
 
     <string-array name="situation_field_array">
         <item>Plongée</item>
@@ -23,6 +26,36 @@
         <item>Autre situation</item>
     </string-array>
 
-    <string name="dismiss">Annuler</string>
-    <string name="confirm">Confirmer</string>
+<!--    //////-->
+<!--    Screens.UserInformationsScreen-->
+
+    <string-array name="observer_typology_field_array">
+        <item>-----</item>
+        <item>Aquarium</item>
+        <item>Association</item>
+        <item>Bureau d'études</item>
+        <item>Chasseur sous-marin</item>
+        <item>Club de plongée</item>
+        <item>Collectivités</item>
+        <item>Entreprise</item>
+        <item>Entreprise whale watching</item>
+        <item>Gardes Cotes des Douanes Françaises</item>
+        <item>Gestionnaire Aire Marine Protégée</item>
+        <item>Guide de pêche professionnel</item>
+        <item>Indépendant</item>
+        <item>Organisme de recherche</item>
+        <item>Pêcheur loisir</item>
+        <item>Pêcheur professionnel</item>
+        <item>Plaisance amateur</item>
+        <item>Plaisance professionnelle</item>
+        <item>Plongeur amateur</item>
+        <item>Plongeur professionnel</item>
+        <item>Poissonnerie</item>
+        <item>Presse</item>
+        <item>Promeneur</item>
+        <item>Survol aérien</item>
+        <item>Autre</item>
+    </string-array>
+    <!--    //////-->
+
 </resources>

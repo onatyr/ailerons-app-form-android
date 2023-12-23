@@ -12,7 +12,6 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import fr.onat68.ailerons_app_android.screens.context.ContextScreen
-import fr.onat68.ailerons_app_android.screens.context.ContextViewModel
 import fr.onat68.ailerons_app_android.screens.context.MapView
 import fr.onat68.ailerons_app_android.ui.theme.AileronsAppAndroidTheme
 
